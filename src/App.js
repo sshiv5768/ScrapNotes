@@ -1,25 +1,61 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { nanoid } from "nanoid";
+import Navbar from "./components/Nav";
+import NoteList from "./components/NoteList";
+import "./App.css";
 
-function App() {
+const App = () => {
+  const [notes, setNotes] = useState([
+    {
+      id: nanoid(),
+      text: "First Note",
+      date: "1/08/2021",
+    },
+    {
+      id: nanoid(),
+      text: "Second Note",
+      date: "1/08/2021",
+    },
+    {
+      id: nanoid(),
+      text: "Third Note",
+      date: "1/08/2021",
+    },
+    {
+      id: nanoid(),
+      text: "Forth Note",
+      date: "1/08/2021",
+    },
+  ]);
+
+  const addnote = (text) => {
+    const date = new Date();
+    const newNote = {
+      id: nanoid(),
+      text: text,
+      date: date.toLocaleDateString(),
+    };
+    const newNotes = [...notes, newNote];
+    setNotes(newNotes);
+  };
+
+  const deleteNote = (id) => {
+    const newNotes = notes.filter((note) => note.id !== id);
+    setNotes(newNotes);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navbar />
+      <div className="container">
+        <NoteList
+          notes={notes}
+          handleAddNote={addnote}
+          handleDelete={deleteNote}
+        />
+      </div>
+    </>
   );
-}
+};
 
 export default App;
